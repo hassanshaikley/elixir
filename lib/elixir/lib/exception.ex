@@ -208,7 +208,7 @@ defmodule Exception do
          {_, kind, _, clauses} <- List.keyfind(defs, {function, arity}, 0) do
       clauses =
         for {meta, ex_args, guards, _block} <- clauses do
-          scope = :elixir_erl.scope(meta)
+          scope = :elixir_erl.scope(meta, true)
 
           {erl_args, scope} =
             :elixir_erl_clauses.match(&:elixir_erl_pass.translate_args/2, ex_args, scope)
@@ -544,8 +544,17 @@ defmodule Exception do
   defp format_application(module) do
     # We cannot use Application due to bootstrap issues
     case :application.get_application(module) do
-      {:ok, app} -> "(" <> Atom.to_string(app) <> ") "
-      :undefined -> ""
+      {:ok, app} ->
+        case :application.get_key(app, :vsn) do
+          {:ok, vsn} when is_list(vsn) ->
+            "(" <> Atom.to_string(app) <> " " <> List.to_string(vsn) <> ") "
+
+          _ ->
+            "(" <> Atom.to_string(app) <> ") "
+        end
+
+      :undefined ->
+        ""
     end
   end
 

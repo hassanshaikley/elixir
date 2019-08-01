@@ -5,8 +5,8 @@ defmodule Agent do
   Often in Elixir processes need to store state as well as share
   state with other processes.
 
-  The `Agent` module provides a server and a simple API for setting
-  and retrieving state.
+  The `Agent` module provides a basic server implementation and
+  a simple API for setting and retrieving state.
 
   ## Examples
 

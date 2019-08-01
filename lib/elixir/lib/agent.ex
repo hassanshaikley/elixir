@@ -2,12 +2,11 @@ defmodule Agent do
   @moduledoc """
   Agents are a simple abstraction around state.
 
-  Often in Elixir there is a need to share or store state that
-  must be accessed from different processes or by the same process
-  at different points in time.
+  Often in Elixir processes need to store state as well as share
+  state with other processes.
 
-  The `Agent` module provides a basic server implementation that
-  allows state to be retrieved and updated via a simple API.
+  The `Agent` module provides a server and a simple API for setting
+  and retrieving state.
 
   ## Examples
 
